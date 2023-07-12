@@ -4,6 +4,8 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DemoController;
 use App\Http\Controllers\DetailsController;
+use App\Http\Controllers\CommentController;
+use App\Models\Comment;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,12 +25,18 @@ use Illuminate\Support\Facades\Route;
 
 // Route::get('/create',[DemoController::class,'createdUser']);
 
-
-Route::get('/blog',[BlogController::class,'page']);
 Route::get('/',[HomeController::class,'page']);
-Route::get('/details',[DetailsController::class,'page']);
+Route::get('/blog',[BlogController::class,'page']);
 
 
+// all blog show and details route
 Route::get('/blogsData',[BlogController::class,'blogsData']);
 Route::get('/details/{id}',[BlogController::class,'details']);
-//Route::get('/details',[DetailsController::class,'blogsData']);
+
+
+// comment insert and show route
+Route::post('/storeComment',[BlogController::class,'storeComment']);
+Route::get('/comments/{id}',[CommentController::class,'getComment']);
+
+
+

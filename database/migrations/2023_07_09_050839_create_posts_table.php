@@ -15,11 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title',200);
             $table->text('content');
-            $table->unsignedBigInteger('user_id');
-
-            $table->foreign('user_id')->references('id')->on('users')
-                    ->restrictOnDelete()
-                    ->cascadeOnUpdate();
+            $table->string('image');            
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

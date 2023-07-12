@@ -8,16 +8,14 @@
                              
        
       <div class="card">
-           <img src="https://placehold.co/600x400" class="img-fluid card-img-top">
+           <img src="{{ $post->image }}" class="img-fluid card-img-top">
            <div class="card-body">
-               <h4 class="card-title">Blog</h4> 
+               <h4  id="blog-title" class="card-title">{{ $post->title }}</h4> 
           
                <span style="float:right" class="badge badge-dark badge-light">Comments</span>
                <hr>
-               <p class="card-text" >
-                 In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate 
-        the visual form of a document or a typeface without relying
-         fg meaningful content. Lorem ipsum may be used as a placeholder before fd copy is available.
+               <p id="blog-content" class="card-text" >
+                 {{$post->content}}
                
                </p>
                
@@ -25,64 +23,57 @@
       </div>
 
       
-    <span class="Fieldinfo">Comments</span>
-    <br><br>
 
+
+      <span class="Fieldinfo text-primary fw-bold">Comments</span>
+      <br><br>
+  
     
-      <div>
-          <div class="media Comment bg-secondary text-light">
-           <img class="d-block img-fluid align-self-start" src="https://placehold.co/600x400"width="100px"height="50px">
-           <div class="media-body  mt-2 ml-2">
-               <h6 class="lead">soikat</h6>
-               <p class="small">hi</p>
-               <p> In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate 
-        the visual form of a document or a typeface without relying
-         fg meaningful content. Lorem ipsum may be used as a placeholder before fd copy is available.</p>
-               
-           </div>
+         <div> 
+            @foreach ( $comments as $item )      
+             
+
+                <div class="media-comment bg-secondary text-light">            
+                  
               
-          </div>
+                    <div class="media-body  mt-2 ml-2">
+                        <p>{{ $item ['content'] }}</p>             
+                        
+                        
+                        
+                    </div>
+             
+            </div>           
+                
           
+                
+            
+             
+            
+           @endforeach 
       </div>
-      <hr>
-      
-      <div class="">
-       <form action="" method="post">
-           <div class="card mt-3">
-               <div class="card-header">
-                  <h3 class="Fieldinfo">Share your think</h3>
-               </div>
-               <div class="card-body">
-                   <div class="form-group">
-                       <div class="input-group">
-                          <div class="input-group-prepend">
-                             <span class="input-group-text"><i class="fas fa-user"></i></span>
-                           </div>
-                        <input class="form-control" type="text" name="name"placeholder="name">   
-                       </div>                          
-                   </div>
-                   <div class="form-group">
-                       <div class="input-group">
-                           <div class="input-group-prepend">
-                               <span class="input-group-text">
-                                   <i class="fas fa-envelope"></i>
-                               </span>                                        
-                           </div>
-                           <input class="form-control" type="email" name="email" placeholder="email">                                    
-                       </div>                                
-                   </div> 
-                   <div class="form-group">
-                       <textarea class="form-control" rows="6"cols="80"
-                       name="comment"></textarea>
-                   </div> 
-                   <div class="form-group">
-                       <button type="submit" name="submit"class="btn btn-primary">Comment</button>                               
-                   </div>       
-               </div>
-           </div>                    
-       </form>
-          
-      </div>
+
+
+
+
+
+       <div class="commentForm">
+        <form  id="comment-form">
+            <div class="mb-3">
+                <input type="hidden" name="post_id" id="id" value="{{$post->id }}">
+                <label for="exampleFormControlInput1" class="form-label">Write a comment</label>               
+              </div>
+              <div class="mb-3">
+
+                <textarea class="form-control" id="content" name="content" rows="3" placeholder="comment"></textarea>
+              </div>
+
+              <div class="">
+                <button type="submit" class="btn btn-primary mb-3">submit</button>
+              </div>
+        </form>
+    </div>
+    
 
           
       </div>
@@ -90,7 +81,7 @@
        <div class="col-sm-4">
            <div class="card mt-4">
                <div class="card-body">
-                   <img src="image/blog.png" class="d-block img-fluid mb-3">
+                   <img src="https://placehold.co/600x400" class="d-block img-fluid mb-3">
                    
                </div>
                <div class="text-center">
@@ -141,3 +132,47 @@
          
     </div>
 </div>
+
+
+
+
+<script>
+
+
+  let element=document.getElementById('comment-form');
+
+element.addEventListener('submit',async(event)=>{
+    event.preventDefault();
+   
+
+      let id=document.getElementById('id').value;
+
+      let content=document.getElementById('content').value;
+      //alert(content);
+   
+    if(content.length===0){
+            alert("content is required");
+        }else{
+
+        let formData ={
+            post_id: id,
+            content: content,         
+        }
+        let url='/storeComment';
+        let result=await axios.post(url,formData);      
+        if(result){
+            alert('Comment Added Successfully');
+           element.reset();
+        } 
+       }
+
+       
+       
+         
+
+
+    
+})
+
+
+</script>

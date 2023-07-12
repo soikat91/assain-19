@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BlogController extends Controller
 {
@@ -14,41 +15,50 @@ class BlogController extends Controller
     }
 
     function blogsData(){
-return Post::with('user')->get(); 
-// //dd($posts);;
-//       foreach($posts as $post){
-
-//         echo "Post: " . $post->title . "\n";
-
-//         foreach($post->user as $user){
-//             echo "User: " . $user->name . "\n";
-//         }
-//       }
-
-
-
-// $usersWithPosts = User::with('posts')->get();
-
-// foreach ($usersWithPosts as $user) {
-//     echo "User: " . $user->name . "\n";
-    
-//     foreach ($user->posts as $post) {
-//         echo "Post: " . $post->title . "\n";
-//     }
-// }
-
-
-
+        return Post::get(); 
     }
 
 
     function details($id){
 
+     
+        $post= Post::findOrFail($id);
 
-        //return Comment::with('comments')->first();
-        return Post::where('id',$id)->first();
+        $comments=Comment::where('post_id',$id)->get();
+        // echo"<pre>";
+        // print_r($comments);
+        // exit();
+        return view('pages.details',compact('post','comments'));
 
         
 
     }
+
+    function storeComment(Request $request){
+
+        $res =  Comment::insert([
+            'post_id'=> $request->post_id,          
+            'content' => $request->content
+    
+        ]);
+     
+        return  redirect()->back();
+     
+    }
+
+    function getCommentData($id){
+
+       return Comment::where('post_id',$id)->get();
+
+    }
+
+
+
+
+
+
+
+
+
+
 }

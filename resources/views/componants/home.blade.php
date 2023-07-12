@@ -1,1 +1,1 @@
-<h1 class="text-center text-primary">Welcome to Our Blog Website</h1>
+<h1 class="text-center text-primary">Welcome to My Blog Website</h1>

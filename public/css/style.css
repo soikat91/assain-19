@@ -44,6 +44,13 @@ html {
     left: 50%;
     transform: translateX(-50%);
 }
+
+.media-comment{
+    height: 68px;
+}
+.media-body {
+    padding: 10px;
+}
 @media (min-width: 576px) {
     .profile {
         height: 60vw;
